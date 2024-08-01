@@ -1,0 +1,3 @@
+[submodule "src/maps"]
+	path = src/maps
+	url = https://github.com/PreBow-Tournament/Maps

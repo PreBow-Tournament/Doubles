@@ -1,4 +1,5 @@
 import { Team } from '..';
+import { two } from '../../maps';
 
 const scoreRange = [0, 1, 2, 3, 4, 5] as const;
 
@@ -16,5 +17,5 @@ export interface Game {
     status: 'Pending' | 'Finished';
     results?: [GameTeam, GameTeam];
     time?: `${number}:${number}`;
-    map: RawMap;
+    map: two.RawMap;
 }
