@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Games</title>
+    <link href="/icon.png" rel="icon">
+    <link href="/games.css" rel="stylesheet" type="text/css">
+    <script src="update.js"></script>
+</head>
+
+<body>
+    <section>
+        <ul>
+            <li><a href="info">Info</a></li>
+            <li><a class="active">Games</a></li>
+            <li><a href="https://discord.gg/MGsAVt42Qv">Discord</a></li>
+            <li style="float:right"><a href="login">Login</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Bracket 1</h1>
+        <table id="games">
+            <tr>
+                <th>Players</th>
+                <th>Status</th>
+                <th>Map</th>
+                <th>Time</th>
+                <th>Results</th>
+            </tr>
+            <% games.forEach(game => { %>
+                <tr game="<%= JSON.stringify(game) %>" admin="<%= !!user %>">
+                    <td>
+                        <% game.players.forEach(team => { %>
+                            <% const callbackFn = (acc, current) => acc + current; %>
+                            <span class="tooltip"><%= team[0] %>
+                                <span class="tooltiptext">
+                                    <%= points.has(team[0]) ? Array.from(points.get(team[0]).values()).reduce(callbackFn, 0) : 0; %> points
+                                </span>
+                            </span>,
+                            <span class="tooltip"><%= team[1] %>
+                                <span class="tooltiptext">
+                                    <%= points.has(team[1]) ? Array.from(points.get(team[1]).values()).reduce(callbackFn, 0) : 0; %> points
+                                </span>
+                            </span>
+                            <% if (game.players[0] === team) { %> 
+                                vs
+                            <% } %>
+                        <% }); %>
+                    </td>
+                    <td>
+                        <%= game.status %>
+                    </td>
+                    <td>
+                        <%= game.map %>
+                    </td>
+                    <td>
+                        <%= game.time %>
+                    </td>
+                    <% if (!game.results) { %>
+                        <td>N/A</td>
+                    <% } else { %>
+                        <td>
+                            <% game.results.forEach((result, index) => { %>
+                                <div class="results-column">
+                                    <span id="<%= result.winner ? 'winner' : '' %>"><b><%= result.players.join(' '); %></b></span>
+                                    <br>Colour: <%= result.colour %>, 
+                                    Score: <%= result.score %>,
+                                    Damage: <%= result.damage %>
+                                </div>
+                            <% }); %>
+                        </td>
+                    <% } %>
+                </tr>
+            <% }); %>
+        </table>
+    </section>
+
+    <div id="overlay"></div>
+
+    <div id="form-container" class="hidden">
+        <h2 id="form-name">Input Results</h2>
+        <form id="update" action="/" method="post">
+            <div id="form-fields">
+                <!--- Fields --->
+            </div>
+            <div>
+                <button type="submit">Submit</button>
+                <button type="button" id="cancel-btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    <% if (user) { %>
+        <p style="color: green;">Logged in as admin.</p>
+    <% } %>
+</body>
+
+</html>
