@@ -1,10 +1,10 @@
-import { Player, Team } from '..';
+import { Team } from '..';
 
-export function createTeams(names: Player[]): Team[] {
+export function createTeams(names: string[]): Team[] {
     const teams: Team[] = [];
     for (let i = 0; i < names.length; i++) {
         for (let j = i + 1; j < names.length; j++) {
-            teams.push([names[i].name, names[j].name]);
+            teams.push([names[i], names[j]]);
         }
     }
     return teams;
