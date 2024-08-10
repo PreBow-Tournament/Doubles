@@ -1,3 +1,4 @@
 # Doubles
-Generates teams for doubles teams and matches.
-Currently in beta version.
+v1.1.0
+Beta working version.
+Displays doubles games and points.
