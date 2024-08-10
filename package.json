@@ -1,7 +1,7 @@
 {
   "name": "doubles",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "Website to represent a doubles tournament system",
   "main": "index.ts",
   "scripts": {
     ".": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts"
