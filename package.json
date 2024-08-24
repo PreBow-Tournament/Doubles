@@ -4,7 +4,7 @@
   "description": "Website to represent a doubles tournament system",
   "main": "index.ts",
   "scripts": {
-    ".": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts"
+    "start": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts"
   },
   "keywords": [],
   "author": "",
