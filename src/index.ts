@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { winner, two, FormResults, capitalise } from './utils';
+import { winner, two, FormResults, capitalise, createGame, createTeams } from './utils';
 import mongoose from 'mongoose';
 import { mongooseURI, admins } from './assets/config.json';
 import { pointsSchema, gamesSchema } from './schemas';
@@ -23,25 +23,6 @@ mongoose.connect(mongooseURI)
 // const teams = createTeams(players1);
 // const games = createGame(teams);
 
-const app = express();
-const port = 3000 || 3001;
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(__dirname + '/css'));
-app.use(express.static(__dirname + '/assets'));
-app.use(express.static(__dirname + '/scripts'));
-
-app.use(session({
-    secret: 'this_is_mega_secret',
-    resave: false,
-    saveUninitialized: true
-}));
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(express.json());
-
 // const clear = () => new Promise<void>(async (resolve) => {
 //     (await gamesSchema.find({})).forEach(async (game, index, array) => {
 //         await gamesSchema.findOneAndDelete(game._id);
@@ -63,6 +44,25 @@ app.use(express.json());
 //     });
 // });
 
+const app = express();
+const port = 3000 || 3001;
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(__dirname + '/css'));
+app.use(express.static(__dirname + '/assets'));
+app.use(express.static(__dirname + '/scripts'));
+
+app.use(session({
+    secret: 'this_is_mega_secret',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.json());
+
 app.get('/', async (req, res) => {
     const user = req.session.user;
 
@@ -70,6 +70,9 @@ app.get('/', async (req, res) => {
     (await pointsSchema.find({})).forEach(({ key, value }) => {
         points.set(key, value as Map<string, number>);
     });
+
+    // await clear();
+    // await loadGames();
 
     const loaded = await gamesSchema.find({});
 
