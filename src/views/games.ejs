@@ -28,7 +28,7 @@
                 <th>Results</th>
             </tr>
             <% games.forEach(game => { %>
-                <tr game="<%= JSON.stringify(game) %>" admin="<%= !!user %>">
+                <tr game="<%= JSON.stringify(game) %>" onclick="update(this, '<%=!!user%>')">
                     <td>
                         <% game.players.forEach(team => { %>
                             <% const callbackFn = (acc, current) => acc + current; %>

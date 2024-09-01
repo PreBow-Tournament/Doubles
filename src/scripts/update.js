@@ -1,21 +1,16 @@
 let choice;
-document.addEventListener('DOMContentLoaded', () => {
-    const table = document.getElementById('games');
+
+function update(element, admin) {
+    if (admin === 'false') return;
+
     const overlay = document.getElementById('overlay');
     const formContainer = document.getElementById('form-container');
     const formFields = document.getElementById('form-fields');
-    const cancelButton = document.getElementById('cancel-btn');
+    const game = JSON.parse(element.getAttribute('game'));
 
-    table.addEventListener('click', event => {
-        if (event.target.tagName !== 'TD') return;
-        const row = event.target.parentElement;
-        if (row.getAttribute('admin') === 'false') return;
+    const justMap = confirm('Would you like to just update the map? Click \'OK\' to modify just the map, and click \'Cancel\' to do all.');
 
-        const justMap = confirm('Would you like to just update the map? Click \'OK\' to modify just the map, and click \'Cancel\' to do all.');
-        
-        const game = JSON.parse(row.getAttribute('game'));
-
-        formFields.innerHTML = `
+    formFields.innerHTML = `
             <div>
                 <input type="hidden" id="id" name="id" value="${game.id}">
                 <input type="hidden" id="players" name="players" value="${game.players}">
@@ -23,19 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        if (justMap) {
-            choice = 'map';
-            document.getElementById('form-name').innerHTML = 'Input Map';
-            formFields.innerHTML += `
+    if (justMap) {
+        choice = 'map';
+        document.getElementById('form-name').innerHTML = 'Input Map';
+        formFields.innerHTML += `
                 <div>
                     <label for="map">Map</label>
                     <input type="text" id="map" name="map" required autofocus>
                 </div>
             `;
-        } else {
-            choice = 'full';
-            document.getElementById('form-name').innerHTML = 'Input Results';
-            formFields.innerHTML += `
+    } else {
+        choice = 'full';
+        document.getElementById('form-name').innerHTML = 'Input Results';
+        formFields.innerHTML += `
                 <div>
                     <label for="map">Map</label>
                     <input type="text" id="map" name="map" value=${game.map} required autofocus>
@@ -77,11 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="number" id="damage2" name="damage2" min="0" required>
                 </div>
             `;
-        }
+    }
 
-        overlay.style.display = 'flex';
-        formContainer.classList.remove('hidden');
-    });
+    overlay.style.display = 'flex';
+    formContainer.classList.remove('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('overlay');
+    const formContainer = document.getElementById('form-container');
+    const cancelButton = document.getElementById('cancel-btn');
 
     cancelButton.addEventListener('click', () => {
         overlay.style.display = 'none';

@@ -80,11 +80,13 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/', async (req, res) => {
+    if (!req.session.user) return res.redirect('/error/niceTry');
+
     const { id, players, map, time, score1, score2, colour1, colour2, damage1, damage2 }: FormResults = req.body;
     const split = players.split(',');
     const teams = [split.slice(0, 2), split.slice(2)];
 
-    console.log({ id, players, map, time, score1, score2, colour1, colour2, damage1, damage2 });
+    // console.log({ id, players, map, time, score1, score2, colour1, colour2, damage1, damage2 });
 
     const valid: (two.RawMap | 'undecided')[] = Array.from(two.rawMaps.values());
     valid.push('undecided');
@@ -144,6 +146,9 @@ app.get('/error/map', (req, res) => {
 });
 app.get('/error/colours', (req, res) => {
     res.status(400).json({ status: 'Bad Request', code: 400, message: 'Colours are equal' });
+});
+app.get('/error/niceTry', (req, res) => {
+    res.status(401).json({ status: 'Bad Request', code: 401, message: 'Unauthorised' });
 });
 
 console.log('Website now online');
